@@ -1,8 +1,14 @@
+from errors import ComparisonError
+
 class Token():
   def __init__(self, value):
     self.value = value
+
   def __eq__(self, obj):
+    if not isinstance(obj, Token):
+      raise ComparisonError(self, obj)
     return self.value == obj.value
+
   def __repr__(self):
     return f"<{self.__class__.__name__}:{self.value}>"
 
