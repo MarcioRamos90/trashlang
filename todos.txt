@@ -2,10 +2,12 @@
 - simple lexer [ok]
 - simple parser [ok] - no precedence verification
 - precedence verification [ok]
-- add parenteses verification [todo]
-- add syntax errors like:
-    (2 3) - distinct numbers have to habe operations to parse
-    (2 ++- 5) - humm I don't know what kind error is this (in math it just would be 2 - 5, but here I need to decide)
+- add parenteses verification [ok]
+- add more test cases with nested parenteses [doing]
+
+- add syntax errors like [todo]:
+    [] (2 3) - distinct numbers have to habe operations to parse
+    [] (2 ++- 5) - humm I don't know what kind error is this (in math it just would be 2 - 5, but here I need to decide)
 
 
 00.00.02 - 
