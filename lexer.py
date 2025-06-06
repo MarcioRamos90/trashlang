@@ -6,13 +6,16 @@ class Token():
 
   def __eq__(self, obj):
     if not isinstance(obj, Token):
-      raise ComparisonError(self, obj)
+      return False
     return self.value == obj.value
 
   def __repr__(self):
     return f"<{self.__class__.__name__}:{self.value}>"
 
-class Parenteses(Token):
+class ParentesesOpen(Token):
+  pass
+
+class ParentesesClose(Token):
   pass
 
 class Number(Token):  
@@ -50,16 +53,22 @@ class Lexer():
       elif self.is_op():
         op = self.get_op() 
         self.tokens.append(Op(op))
-      elif self.is_parenteses():
+      elif self.is_open_parenteses():
         paren = self.get_op() 
-        self.tokens.append(Parenteses(paren))
+        self.tokens.append(ParentesesOpen(paren))
+      elif self.is_close_parenteses():
+        paren = self.get_op() 
+        self.tokens.append(ParentesesClose(paren))
       if not self.next():
         break
     self.tokens.append(Eof())
     return self.tokens
-  
-  def is_parenteses(self):
-    return self.current and self.current in ('(', ')')
+
+  def is_open_parenteses(self):
+    return self.current == '('
+
+  def is_close_parenteses(self):
+    return self.current == ')'
   
   def get_parenteses(self):
     return self.current

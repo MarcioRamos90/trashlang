@@ -19,11 +19,11 @@ def test_tokens_creation():
 
 
 def test_tokens_creation_with_parenteses():
-  expect = [Parenteses('('), 
+  expect = [ParentesesOpen('('), 
             Number('1'), 
             Op("+"),
             Number('2'),
-            Parenteses(')'),
+            ParentesesClose(')'),
             Op("*"),
             Number('8'),
             Eof()]

@@ -1,10 +1,9 @@
 from lexer import *
+from parser import *
 
 def main():
-  expect = [Number(1), Op("+"), Number(22), Eof()]
-  tokens = Lexer("2025 + 200 * 9 + 0").get_tokens()
-  print(tokens)
-  # assert tokens == expect, "Error on comparing"
-
+  tokens = Lexer("1 * 2 + 3").get_tokens()
+  result = Parser(tokens).parse()
+  print(result)
 
 main()

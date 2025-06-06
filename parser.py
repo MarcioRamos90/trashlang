@@ -5,8 +5,7 @@ from errors import ComparisonError
 class BinOp:
   def __eq__(self, obj):
     if not isinstance(obj, BinOp):
-      print(self, obj)
-      raise ComparisonError(self, obj)
+      return False
     return self.left == obj.left and self.op == obj.op and self.right == obj.right
 
   def __init__(self, left, op, right):
@@ -38,17 +37,31 @@ class Parser:
   
   def expression(self):
     left = self.current()
-    while self.next():
-      op = self.current()
+
+    if self.token_is_a(self.current(), lexer.ParentesesOpen):
+      self.next()
+      left = self.expression()
+
+    while self.has_next():
+      op = self.next()
       current_precedence = precedence(op)
-      
       right = self.next()
-      if self.has_next() and current_precedence > self.next_precedence():
-        left = BinOp(left, op, right)  
-      elif self.has_next() and current_precedence < self.next_precedence():
-        right = self.expression()
+
+      if self.token_is_a(self.read_next(), lexer.Op):
+        if current_precedence > self.next_precedence():
+          left = BinOp(left, op, right)  
+        elif current_precedence < self.next_precedence():
+          right = self.expression()
+      
+      if self.token_is_a(self.read_next(), lexer.ParentesesClose):
+        self.next()
+        break
+      
     return BinOp(left, op, right)
 
+  def token_is_a(self, token, token_class):
+    return isinstance(token, token_class)
+  
   def next_precedence(self):
     return precedence(self.read_next())
   
