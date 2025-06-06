@@ -1,6 +1,4 @@
 import lexer
-from errors import ComparisonError
-
 
 class BinOp:
   def __eq__(self, obj):
@@ -47,6 +45,10 @@ class Parser:
       current_precedence = precedence(op)
       right = self.next()
 
+      if self.token_is_a(self.current(), lexer.ParentesesOpen):
+        self.next()
+        right = self.expression()
+
       if self.token_is_a(self.read_next(), lexer.Op):
         if current_precedence > self.next_precedence():
           left = BinOp(left, op, right)  
@@ -56,7 +58,7 @@ class Parser:
       if self.token_is_a(self.read_next(), lexer.ParentesesClose):
         self.next()
         break
-      
+
     return BinOp(left, op, right)
 
   def token_is_a(self, token, token_class):

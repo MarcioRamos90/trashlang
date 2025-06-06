@@ -2,8 +2,12 @@ from lexer import *
 from parser import *
 
 def main():
-  tokens = Lexer("1 * 2 + 3").get_tokens()
-  result = Parser(tokens).parse()
-  print(result)
+  while True:
+    code = input("> ")
+    if code == "q":
+      return
+    tokens = Lexer(code).get_tokens()
+    result = Parser(tokens).parse()
+    print(result)
 
 main()
